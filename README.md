@@ -1,4 +1,4 @@
-# HEAD OVER HEELS
+# HEAD OVER HEELS Project
 
 **H**eliophysics **E**vent **A**nalysis & **D**etection — **O**bserving **V**ariability **E**vents **R**evealing **H**ELiospheric **E**jecta and **E**xtreme **L**ocal **S**hocks
 
@@ -8,11 +8,11 @@
 
 ## Overview
 
-HEAD OVER HEELS is a Python pipeline that ingests magnetic field (FGM), ion plasma (FPI), and electric field (EDP) data from NASA's **Magnetospheric Multiscale (MMS)** mission and automatically detects the in-situ signatures of **Interplanetary Coronal Mass Ejections (ICMEs)** as they sweep past the spacecraft.
+HEAD OVER HEELS is a workflow written in Python that ingests magnetic field (FGM), ion plasma (FPI), and electric field (EDP) data from NASA's **Magnetospheric Multiscale (MMS)** mission and is designed (currently perfecting it) to automatically detect the in-situ signatures of **Interplanetary Coronal Mass Ejections (ICMEs)** as they sweep past the spacecraft.
 
 The project started as a fluid-level analysis script for shock detection in a single MMS dataset (2018-02-12) and has been restructured into a modular detection pipeline built around the physical phase structure of a real ICME event.
 
-This is **fluid-level** (moments-based) analysis, not full kinetic/distribution-function analysis — the algorithm works with density, bulk velocity, temperature moments, and magnetic/electric field vectors rather than raw particle distribution functions.
+This is **fluid-level** (moments-based) analysis, not full kinetic/distribution-function analysis (yet) — the algorithm works with density, bulk velocity, temperature moments, and magnetic/electric field vectors rather than raw particle distribution functions.
 
 ---
 
@@ -90,37 +90,14 @@ head_over_heels.py
 
 ---
 
-## Known issues
-
-**PySPEDAS / pytplot / bokeh dependency conflict.** The `pytplot` package (a dependency of PySPEDAS's plotting utilities) currently breaks under `bokeh>=3.0` (API restructuring removed `bokeh.plotting.figure.Figure`), and downgrading to `bokeh==2.4.3` instead breaks under `numpy>=2.0` (which removed `np.bool8`). Until this three-way conflict is resolved upstream, **`Config.USE_PYSPEDAS` should be set to `False`** and data should be loaded from local CDFs via the SpacePy path, which has no such conflicts.
-
----
-
 ## Requirements
 
 ```
 numpy
 matplotlib
 spacepy
-pyspedas      # only required if USE_PYSPEDAS = True; see Known Issues
+pyspedas      # only required if USE_PYSPEDAS = True; 
 ```
-
-## Usage
-
-1. Download the relevant MMS CDF files (FGM survey, FPI fast DIS moments, EDP fast DCE) for your time window of interest from the [MMS SDC](https://lasp.colorado.edu/mms/sdc/public/).
-2. Set the file paths and detection thresholds in `Config`.
-3. Run:
-
-```bash
-python head_over_heels.py
-```
-
-This produces:
-- A console event report (timestamps, compression ratio, Bz rotation, minimum beta) for each detected ICME
-- `head_over_heels_summary.png` — 6-panel overview with phase-shaded state machine output
-- `head_over_heels_EDP.png` — supplementary electric field figure
-
----
 
 ## Background & references
 
@@ -134,4 +111,4 @@ The detection logic draws on the standard in-situ ICME signature literature, and
 
 ## Author
 
-Ana — M.Sc. in Nanotechnology Engineering (COPPE/UFRJ), background in computational nanomaterials modeling (DFT/FEM) and CubeSat payload work at Minerva Aerospace/UFRJ. This project is part of an ongoing transition toward space plasma physics and instrumentation work.
+Ana Carolina — M.Sc. in Nanotechnology Engineering (COPPE/UFRJ), background in computational nanomaterials modeling (DFT/FEM). This project is part of an ongoing transition toward space plasma physics and instrumentation work.
